@@ -6,7 +6,7 @@ import {
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
 import { CreateCustomers, DeleteCustomer, UpdateCustomer } from '../invoices/buttons';
-import { fetchFilteredCustomers } from '@/app/lib/data';
+import { fetchFilteredCustomers } from '@/app/lib/customers-data';
 
 export default async function CustomersTable({
   // customers,

@@ -1,45 +1,40 @@
 'use client'
 
-import { CustomerField } from '@/app/lib/definitions';
 import Link from 'next/link';
 import { useFormState } from 'react-dom'
-import {
-  CameraIcon,
-  CheckIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
-  UserCircleIcon,
-} from '@heroicons/react/24/outline';
+import { CameraIcon, CurrencyDollarIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
-import { createCustomers } from '@/app/lib/actions';  
+import { CreateCustomer } from '@/app/lib/customer-actions';  
 
 export default function Form() {
   const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(createCustomers, initialState);
+
+  const [state, dispatch] = useFormState(CreateCustomer, initialState);
+
   return (
     <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
         {/* Customer Full Name */}
         <div className="mb-4">
-          <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+          <label htmlFor="name" className="mb-2 block text-sm font-medium">
             Full name of customer
           </label>
           <div className="relative">
           <input
-                id="fullname"
-                name="fullname"
-                type="string"
+                id="name"
+                name="name"
+                type="text"
                 step="0.01"
                 placeholder="Enter full name of customer"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="amount-error"
+                aria-describedby="name-error"
               />
             <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
-            <div id="customer-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.customerId &&
-                state.errors.customerId.map((error: string) => (
+            <div id="name-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.name &&
+                state.errors.name.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -49,7 +44,7 @@ export default function Form() {
 
         {/* Customer Email */}
         <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
+          <label htmlFor="email" className="mb-2 block text-sm font-medium">
             Email of customer
           </label>
           <div className="relative mt-2 rounded-md">
@@ -57,18 +52,17 @@ export default function Form() {
               <input
                 id="email"
                 name="email"
-                type="string"
-                step="0.01"
+                type="email"
                 placeholder="Enter the email of customer"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="amount-error"
+                aria-describedby="email-error"
               />
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-            <div id="amount-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.amount &&
-                state.errors.amount.map((error: string) => (
+            <div id="email-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.email &&
+                state.errors.email.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
@@ -76,45 +70,48 @@ export default function Form() {
             </div>
         </div>
 
-        {/* Invoice Status */}
+        {/* Customer Image */}
         <fieldset>
           <legend className="mb-2 block text-sm font-medium">
             Put a image url of the customer
           </legend>
           <div>
+
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="url"
-                name="url"
-                type="string"
-                step="0.01"
+                id="image_url"
+                name="image_url"
+                type="text"
                 placeholder="Enter a url image of the customer"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="amount-error"
+                aria-describedby="image_url-error"
               />
               <CameraIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-            <div id="status-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.status &&
-                state.errors.status.map((error: string) => (
+
+            <div id="image_url-error" aria-live="polite" aria-atomic="true">
+              {state.errors?.image_url &&
+                state.errors.image_url.map((error: string) => (
                   <p className="mt-2 text-sm text-red-500" key={error}>
                     {error}
                   </p>
                 ))}
             </div>
+
           </div>
         </fieldset>
+
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
-          href="/dashboard/invoices"
+          href="/dashboard/customers"
           className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
         >
           Cancel
         </Link>
-        <Button type="submit">Create Invoice</Button>
+        <Button type="submit">Create Customer</Button>
       </div>
     </form>
   );

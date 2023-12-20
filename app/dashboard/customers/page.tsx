@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import CustomersTable from '@/app/ui/customers/table'
-import { fetchCustomersPages, fetchFilteredCustomers } from '@/app/lib/data';
-import { DeleteCustomer } from '@/app/ui/invoices/buttons';
+import { fetchCustomersPages } from '@/app/lib/customers-data';
 import Pagination from '@/app/ui/invoices/pagination';
  
 export const metadata: Metadata = {

@@ -1,25 +1,12 @@
-'use client';
 
-import { CustomerEditField } from '@/app/lib/definitions';
-import { updateCustomer } from '@/app/lib/customer-actions';
-import {
-  CurrencyDollarIcon
-} from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import { Button } from '@/app/ui/button';
-import { useFormState } from 'react-dom';
+import { CurrencyDollarIcon } from "@heroicons/react/24/outline"
+import { Button } from "../button"
+import Link from "next/link"
 
-export default function EditCustomersForm({
-  customer,
-}: {
-  customer: CustomerEditField;
-}) {
-  const initialState = { message: null, errors: {} };
-  const updateCustomerById = updateCustomer.bind(null, customer.id);
-  const [state, dispatch] = useFormState(updateCustomerById, initialState);
 
+export default function CustomerForm(customer: string, defaultValueName: string, defaultValueEmail: string, defaultValueImageURL: string, dispatch: string) {
   return (
-    <form action={dispatch}>  
+  <form action={dispatch}>  
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -31,7 +18,7 @@ export default function EditCustomersForm({
                 id="name"
                 name="name"
                 type="text"
-                defaultValue={customer.name}
+                defaultValue={defaultValueName}
                 placeholder="Enter name"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
               />
@@ -51,7 +38,7 @@ export default function EditCustomersForm({
                   id="email"
                   name="email"
                   type="email"
-                  defaultValue={customer.email}
+                  defaultValue={defaultValueEmail}
                   placeholder="Enter email"
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 />
@@ -73,7 +60,7 @@ export default function EditCustomersForm({
                   id="image_url"
                   name="image_url"
                   type="text"
-                  defaultValue={customer.image_url}
+                  defaultValue={defaultValueImageURL}
                   placeholder="Enter a image URL"
                   className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 />
@@ -93,6 +80,5 @@ export default function EditCustomersForm({
         <Button type="submit">Edit customer</Button>
       </div>
     </form>
-  );
+    )
 }
-
