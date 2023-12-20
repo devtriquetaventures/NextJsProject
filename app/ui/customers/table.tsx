@@ -5,18 +5,28 @@ import {
   CustomersTableType,
   FormattedCustomersTable,
 } from '@/app/lib/definitions';
+import { CreateCustomers, DeleteCustomer, UpdateCustomer } from '../invoices/buttons';
+import { fetchFilteredCustomers } from '@/app/lib/customers-data';
 
 export default async function CustomersTable({
-  customers,
+  // customers,
+  currentPage,
+  query
 }: {
-  customers: FormattedCustomersTable[];
+  // customers: FormattedCustomersTable[];
+  currentPage: number;
+  query: string;
 }) {
+  const customers = await fetchFilteredCustomers(query, currentPage)
   return (
     <div className="w-full">
       <h1 className={`${lusitana.className} mb-8 text-xl md:text-2xl`}>
         Customers
       </h1>
-      <Search placeholder="Search customers..." />
+      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <Search placeholder="Search customers..." />
+        <CreateCustomers />
+      </div>
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
@@ -62,6 +72,8 @@ export default async function CustomersTable({
                   </div>
                 ))}
               </div>
+
+
               <table className="hidden min-w-full rounded-md text-gray-900 md:table">
                 <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                   <tr>
@@ -79,6 +91,9 @@ export default async function CustomersTable({
                     </th>
                     <th scope="col" className="px-4 py-5 font-medium">
                       Total Paid
+                    </th>
+                    <th>
+                      
                     </th>
                   </tr>
                 </thead>
@@ -107,13 +122,18 @@ export default async function CustomersTable({
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_pending}
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.total_paid}
+                      </td>
+                      <td className="flex justify-end gap-2 whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
+                        <UpdateCustomer id={customer.id} />
+                        <DeleteCustomer id={customer.id} />
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+
             </div>
           </div>
         </div>
