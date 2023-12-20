@@ -31,6 +31,7 @@ export type State = {
 };
 
 const CreateInvoice = FormSchema.omit({ id: true, date: true });
+const CreateCustomers = FormSchema.omit({id: true, date: true});
 
 export async function createInvoice(prevState: State, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
@@ -63,6 +64,30 @@ export async function createInvoice(prevState: State, formData: FormData) {
  
   revalidatePath('/dashboard/invoices');
   redirect('/dashboard/invoices');
+}
+
+export async function createCustomers(prevState: State, formData: FormData) {
+  const CreateCustomers = ({
+    name: formData.get('fullname'),
+    email: formData.get('email'),
+    image_url: formData.get('iamge_url'),
+  });
+  
+  const { name, email, image_url } = CreateCustomers;
+ 
+  try {
+    await sql`
+      INSERT INTO customers (customers.id, customers.email, customers.image_url)
+     
+    `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Create Customer.',
+    };
+  }
+ 
+  revalidatePath('/dashboard/customers');
+  redirect('/dashboard/customers');
 }
 
 const UpdateInvoice = FormSchema.omit({ id: true, date: true });
@@ -109,6 +134,16 @@ export async function deleteInvoice(id: string) {
     return { message: 'Deleted Invoice.' };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete Invoice.' };
+  }
+}
+
+export async function deleteCustomer(id: string) {
+  try {
+    await sql`DELETE FROM customers WHERE id = ${id}`;
+    revalidatePath('/dashboard/customers');
+    return { message: 'Deleted Customer.' };
+  } catch (error) {
+    return { message: 'Database Error: Failed to Delete Customer.' };
   }
 }
 
