@@ -2,7 +2,7 @@
 
 import { UserEditField } from '@/app/lib/definitions';
 import { updateUser } from '@/app/lib/users-actions';
-import { CurrencyDollarIcon, EnvelopeIcon, LockClosedIcon, UserIcon } from '@heroicons/react/24/outline';
+import { EnvelopeIcon, LockClosedIcon, UserIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { useFormState } from 'react-dom';
@@ -15,12 +15,12 @@ export default function EditUsersForm({
 }) {
   const initialState = { message: null, errors: {} };
   const updateUserById = updateUser.bind(null, user.id);
+
   const [state, dispatch] = useFormState(updateUserById, initialState);
 
-
-  console.log(state)
+  console.log('State', state);
   return (
-    <form action={dispatch}>  
+    <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Username */}
         <div className="mb-4">
@@ -100,7 +100,11 @@ export default function EditUsersForm({
           </div>
         </div>
 
-        { state?.errors?.password && state?.errors?.password[0]}
+        <div className='text-sm text-red-500'>
+          { state?.message}
+        </div>
+
+
 
       <div className="mt-6 flex justify-end gap-4">
         <Link

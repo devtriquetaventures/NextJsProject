@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 export default function Input({id, name, type, defaultValue, placeholder, className, icon, value, label, onChange, state} : Input ) {
   return (
     <>
-      {label && 
+      {label &&
         <label htmlFor={name} className="mb-2 block text-sm font-medium">
           {label}
         </label>
@@ -22,8 +22,8 @@ export default function Input({id, name, type, defaultValue, placeholder, classN
         {icon}
       </div>
       <div id={`${name}-error`} aria-live="polite" aria-atomic="true">
-        {state.errors?.[name] &&
-          state.errors[name].map((error: string) => (
+        {state?.errors?.[name] &&
+          state?.errors[name].map((error: string) => (
             <p className="mt-2 text-sm text-red-500" key={error}>
               {error}
             </p>

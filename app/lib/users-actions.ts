@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { sql } from '@vercel/postgres'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import bcrypt from 'bcrypt'; 
+import bcrypt from 'bcrypt';
 import { fetchUserById } from '@/app/lib/users-data'
 
 const FormUserSchema = z.object({
@@ -12,8 +12,8 @@ const FormUserSchema = z.object({
   username: z.coerce.string({
       invalid_type_error: 'Please enter a username'
     })
-    .min(1, { 
-      message: "Please enter a username" 
+    .min(1, {
+      message: "Please enter a username"
     }),
     email: z.string().email(),
     password: z.string().min(6, {
@@ -40,43 +40,40 @@ export async function CreateUser(prevState: State, formData: FormData) {
     email: formData.get('email'),
     password: formData.get('password'),
   });
-  
+
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create User.',
     };
   }
-  
+
   const { username, email, password } = validatedFields.data;
 
- 
+
   try {
 
     bcrypt.genSalt(10, (err, salt) => {
-
       bcrypt.hash(password, salt, async (err, hashedPassword: string) => {
-
         if (err) {
           console.error('Error al hashear la contraseña:', err);
           return
-        } 
-        
+        }
+
         await sql`
         INSERT INTO users (name, email, password)
         VALUES (${username}, ${email}, ${hashedPassword})
       `;
-  
-        
       });
     });
 
   } catch (error) {
+    console.log(error)
     return {
       message: 'Database Error: Failed to Create User.',
     };
   }
- 
+
   revalidatePath('/dashboard/users');
   redirect('/dashboard/users');
 }
@@ -86,18 +83,22 @@ const FormUserEditSchema = z.object({
   username: z.coerce.string({
       invalid_type_error: 'Please enter a username'
     })
-    .min(1, { 
-      message: "Please enter a username" 
+    .min(1, {
+      message: "Please enter a username"
     }),
     email: z.coerce.string().email(),
     password: z.coerce.string({
       invalid_type_error: 'Please enter a username'
-    }).min(6, {
+    })
+    .min(6, {
       message: "Please enter a password of 6 or more characteres"
-    }).optional(),
-    oldPassword: z.coerce.string().min(6, {
+    })
+    .optional(),
+    oldPassword: z.coerce.string()
+    .min(6, {
       message: "Please enter a password of 6 or more characteres"
-    }).optional()
+    })
+    .optional()
 })
 
 const UpdateUser = FormUserEditSchema.omit({ id: true });
@@ -117,75 +118,75 @@ export async function updateUser(
     password: formData.get('password'),
     oldPassword: formData.get("oldPassword")
   }
-  
+
   const validatedFields = UpdateUser.safeParse(
-    formData.get('password') ? { ...userData, ...passData } : userData
+    formData.get('password') || formData.get("oldPassword") ? { ...userData, ...passData } : userData
   );
 
- 
+
   if (!validatedFields.success) {
-    console.log(validatedFields.error.flatten().fieldErrors)
+    console.log('zod validation error:', validatedFields.error.flatten().fieldErrors)
+
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Update User.',
     };
   }
- 
+
   const { username, email, password, oldPassword } = validatedFields.data;
-  
-  try {
-    if (password && oldPassword){
 
-      const userDb = await fetchUserById(id)
+  let updateQuery = ''
 
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, async (err, hashedPassword: string) => {
-          if (err) {
-            console.error('Error al hashear la contraseña:', err);
-            return
-          } 
+  if (password && oldPassword){
+    const userDb = await fetchUserById(id)
+    let validatePassword = false
+    let hashedPassword = ''
 
-          const validatePassword = bcrypt.compareSync(oldPassword, userDb.password );
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, async (err, hashedPassword: string) => {
+        if (err) {
+          console.error('Error al hashear la contraseña:', err);
+          return
+        }
+        hashedPassword = hashedPassword
+        validatePassword = bcrypt.compareSync(oldPassword, userDb.password );
+      });
+    });
 
-          if (validatePassword) { 
-
-            await sql`
-              UPDATE users
-              SET name = ${username}, email = ${email}, password = ${hashedPassword}
-              WHERE id = ${id}
-            `
-          } else {
-            return {
-              errors: {
-                oldPassword:['No matchea papu'],
-                password:['No matchea papu']
-              },
-              message: 'Missing Fields. Failed to Update User.',
-            };
-          }
-
-        });
-      }); 
-    } else { 
-      await sql`
+    if (validatePassword) {
+      updateQuery = `
         UPDATE users
-        SET name = ${username}, email = ${email}
+        SET name = ${username}, email = ${email}, password = ${hashedPassword}
         WHERE id = ${id}
       `
+    } else {
+      return {
+        errors: {
+          oldPassword: ['La contraseña actual no coincide con la indicada.']
+        }
+      }
     }
 
-    revalidatePath('/dashboard/users');
-    redirect('/dashboard/users');
+  } else {
+    updateQuery = `
+      UPDATE users
+      SET name = ${username}, email = ${email}
+      WHERE id = ${id}
+    `
+  }
 
+  try {
+    await sql + updateQuery;
   } catch (error) {
-    
-    console.log(error)
+    console.log('error', error)
     return {
       message: 'Database Error: Failed to Update User.',
-      
     };
   }
-  
+
+
+  revalidatePath('/dashboard/users');
+  redirect('/dashboard/users');
 }
 
 export async function deleteUser(id: string) {
@@ -197,22 +198,3 @@ export async function deleteUser(id: string) {
     return { message: 'Database Error: Failed to Delete User.' };
   }
 }
-
-// export async function authenticate(
-//   prevState: string | undefined,
-//   formData: FormData,
-// ) {
-//   try {
-//     await signIn('credentials', formData);
-//   } catch (error) {
-//     if (error instanceof AuthError) {
-//       switch (error.type) {
-//         case 'CredentialsSignin':
-//           return 'Invalid credentials.';
-//         default:
-//           return 'Something went wrong.';
-//       }
-//     }
-//     throw error;
-//   }
-// }
