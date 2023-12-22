@@ -34,8 +34,6 @@ export async function fetchLatestInvoices() {
   }
 }
 
-
-const ITEMS_PER_PAGE = 6;
 export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
@@ -71,6 +69,8 @@ export async function fetchFilteredInvoices(
     throw new Error('Failed to fetch invoices.');
   }
 }
+
+const ITEMS_PER_PAGE = 6;  
 
 export async function fetchInvoicesPages(query: string) {
   noStore();
@@ -113,8 +113,6 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
-
-    console.log(invoice)
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);

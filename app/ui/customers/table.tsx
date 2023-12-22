@@ -1,10 +1,6 @@
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
-import {
-  CustomersTableType,
-  FormattedCustomersTable,
-} from '@/app/lib/definitions';
 import { CreateCustomers, DeleteCustomer, UpdateCustomer } from '../invoices/buttons';
 import { fetchFilteredCustomers } from '@/app/lib/customers-data';
 
@@ -116,13 +112,13 @@ export default async function CustomersTable({
                       <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                         {customer.email}
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm font-semibold">
                         {customer.total_invoices}
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm text-red-500 font-semibold">
                         {customer.total_pending}
                       </td>
-                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                      <td className="whitespace-nowrap bg-white px-4 py-5 text-sm text-green-500 font-semibold">
                         {customer.total_paid}
                       </td>
                       <td className="flex justify-end gap-2 whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">

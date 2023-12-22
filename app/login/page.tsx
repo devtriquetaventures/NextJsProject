@@ -1,4 +1,4 @@
-import AcmeLogo from '@/app/ui/acme-logo';
+import AcmeLogo from '@/app/ui/tense-logo';
 import LoginForm from '@/app/ui/login-form';
 
 import { Metadata } from 'next';

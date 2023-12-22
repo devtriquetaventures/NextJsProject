@@ -2,33 +2,20 @@
 // It describes the shape of the data, and what data type each property should accept.
 // For simplicity of teaching, we're manually defining these types.
 // However, these types are generated automatically if you're using an ORM such as Prisma.
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  password: string;
+
+export type Revenue = {
+  month: string;
+  revenue: number;
 };
 
-export type Customer = {
-  id: string;
-  name: string;
-  email: string;
-  image_url: string;
-};
+// ----------------------------------------------------------------------------------------------
 
 export type Invoice = {
   id: string;
   customer_id: string;
   amount: number;
   date: string;
-  // In TypeScript, this is called a string union type.
-  // It means that the "status" property can only be one of the two strings: 'pending' or 'paid'.
   status: 'pending' | 'paid';
-};
-
-export type Revenue = {
-  month: string;
-  revenue: number;
 };
 
 export type LatestInvoice = {
@@ -53,6 +40,22 @@ export type InvoicesTable = {
   date: string;
   amount: number;
   status: 'pending' | 'paid';
+};
+
+export type InvoiceForm = {
+  id: string;
+  customer_id: string;
+  amount: number;
+  status: 'pending' | 'paid';
+};
+
+// ----------------------------------------------------------------------------------------------
+
+export type Customer = {
+  id: string;
+  name: string;
+  email: string;
+  image_url: string;
 };
 
 export type CustomersTableType = {
@@ -87,16 +90,44 @@ export type CustomerEditField = {
   image_url: string;
 }
 
-export type InvoiceForm = {
-  id: string;
-  customer_id: string;
-  amount: number;
-  status: 'pending' | 'paid';
-};
-
 export type CustomerForm = {
   id: string;
   name: string;
   email: string;
   image_url: string;
+}
+
+// ----------------------------------------------------------------------------------------------
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+};
+
+export type UserField = {
+  id: string;
+  name: string;
+}
+
+export type UserEditField = {
+  id: string;
+  name: string;
+  email: string;
+  oldPassword: string;
+  password: string;
+}
+
+export type UserForm = {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+}
+
+export type UsersTableType = {
+  id: string;
+  name: string;
+  email: string;
 }
