@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { sql } from '@vercel/postgres'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt'; 
 import { fetchUserById } from '@/app/lib/users-data'
 
 const FormUserSchema = z.object({
@@ -12,8 +12,8 @@ const FormUserSchema = z.object({
   username: z.coerce.string({
       invalid_type_error: 'Please enter a username'
     })
-    .min(1, {
-      message: "Please enter a username"
+    .min(1, { 
+      message: "Please enter a username" 
     }),
     email: z.string().email(),
     password: z.string().min(6, {
@@ -40,40 +40,43 @@ export async function CreateUser(prevState: State, formData: FormData) {
     email: formData.get('email'),
     password: formData.get('password'),
   });
-
+  
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing Fields. Failed to Create User.',
     };
   }
-
+  
   const { username, email, password } = validatedFields.data;
 
-
+ 
   try {
 
     bcrypt.genSalt(10, (err, salt) => {
+
       bcrypt.hash(password, salt, async (err, hashedPassword: string) => {
+
         if (err) {
           console.error('Error al hashear la contraseña:', err);
           return
-        }
-
+        } 
+        
         await sql`
         INSERT INTO users (name, email, password)
         VALUES (${username}, ${email}, ${hashedPassword})
       `;
+  
+        
       });
     });
 
   } catch (error) {
-    console.log(error)
     return {
       message: 'Database Error: Failed to Create User.',
     };
   }
-
+ 
   revalidatePath('/dashboard/users');
   redirect('/dashboard/users');
 }
@@ -83,22 +86,18 @@ const FormUserEditSchema = z.object({
   username: z.coerce.string({
       invalid_type_error: 'Please enter a username'
     })
-    .min(1, {
-      message: "Please enter a username"
+    .min(1, { 
+      message: "Please enter a username" 
     }),
     email: z.coerce.string().email(),
     password: z.coerce.string({
       invalid_type_error: 'Please enter a username'
-    })
-    .min(6, {
+    }).min(6, {
       message: "Please enter a password of 6 or more characteres"
-    })
-    .optional(),
-    oldPassword: z.coerce.string()
-    .min(6, {
+    }).optional(),
+    oldPassword: z.coerce.string().min(6, {
       message: "Please enter a password of 6 or more characteres"
-    })
-    .optional()
+    }).optional()
 })
 
 const UpdateUser = FormUserEditSchema.omit({ id: true });
@@ -176,7 +175,7 @@ export async function updateUser(
   }
 
   try {
-    await sql + updateQuery;
+     sql + updateQuery;
   } catch (error) {
     console.log('error', error)
     return {
