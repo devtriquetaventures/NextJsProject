@@ -107,6 +107,7 @@ export async function updateCustomer(
 export async function deleteCustomer(id: string) {
   try {
     await sql`DELETE FROM customers WHERE id = ${id}`;
+    await sql`DELETE FROM invoices WHERE customer_id = ${id}`
     revalidatePath('/dashboard/customers');
     return { message: 'Deleted Customer.' };
   } catch (error) {
