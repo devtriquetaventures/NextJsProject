@@ -140,40 +140,27 @@ export async function updateUser(
     const userDb = await fetchUserById(id)
     let validatePassword = false
     let hashedNewPassword = ''
-    let hashedOldPassword = ''
 
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(password, salt, async (err, hashedPassword: string) => {
-        if (err) {
-          console.error('Error al hashear la contraseña:', err);
-          return
-        }
-        hashedNewPassword = hashedPassword
-      });
-    });
-
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(oldPassword, salt, async (err, hashedPassword: string) => {
-        if (err) {
-          console.error('Error al hashear la contraseña:', err);
-          return
-        }
-        hashedOldPassword = hashedPassword
+    hashedNewPassword = bcrypt.hashSync(password, 10);
+        console.log(hashedNewPassword)
+        console.log(userDb.password)
         validatePassword = bcrypt.compareSync(oldPassword, userDb.password );
-      });
-    });
+        console.log(validatePassword)
 
-    console.log('es el mismo que la db?', validatePassword)
-    console.log('new_password enviado', password,  hashedNewPassword)
-    console.log('old_password enviado', oldPassword,  hashedOldPassword)
-    console.log('password db', userDb.password)
 
     if (validatePassword) {
-      updateQuery = `
-        UPDATE users
-        SET name = ${username}, email = ${email}, password = ${hashedNewPassword}
-        WHERE id = ${id}
-      `
+      try {
+        await sql`
+          UPDATE users
+          SET name = ${username}, email = ${email}, password = ${hashedNewPassword}
+          WHERE id = ${id}
+        `;
+      } catch (error) {
+        console.log('error', error);
+        return {
+          message: 'Database Error: Failed to Update User.'
+        };
+      }
     } else {
       return {
         errors: {
@@ -183,20 +170,18 @@ export async function updateUser(
     }
 
   } else {
-    updateQuery = `
-      UPDATE users
-      SET name = ${username}, email = ${email}
-      WHERE id = ${id}
-    `
-  }
-
-  try {
-     sql + updateQuery;
-  } catch (error) {
-    console.log('error', error)
-    return {
-      message: 'Database Error: Failed to Update User.',
-    };
+    try {
+      await sql`
+        UPDATE users
+        SET name = ${username}, email = ${email}
+        WHERE id = ${id}
+      `;
+    } catch (error) {
+      console.log('error', error);
+      return {
+        message: 'Database Error: Failed to Update User.'
+      };
+    }
   }
 
 
