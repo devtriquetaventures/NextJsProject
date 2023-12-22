@@ -15,8 +15,12 @@ export default function EditUsersForm({
 }) {
   const initialState = { message: null, errors: {} };
   const updateUserById = updateUser.bind(null, user.id);
+  //const [state, dispatch] = useFormState(updateUserById, initialState);
 
-  const [state, dispatch] = useFormState(updateUserById, initialState);
+  const [state, dispatch] = useFormState(
+    (prevState : any, formData : any) => updateUserById(prevState, formData),
+    initialState
+  );
 
   console.log('State', state);
   return (

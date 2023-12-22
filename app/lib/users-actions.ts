@@ -140,7 +140,8 @@ export async function updateUser(
   if (password && oldPassword){
     const userDb = await fetchUserById(id)
     let validatePassword = false
-    let hashedPassword = ''
+    let hashedNewPassword = ''
+    let hashedOldPassword = ''
 
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, async (err, hashedPassword: string) => {
@@ -148,15 +149,30 @@ export async function updateUser(
           console.error('Error al hashear la contraseña:', err);
           return
         }
-        hashedPassword = hashedPassword
+        hashedNewPassword = hashedPassword
+      });
+    });
+
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(oldPassword, salt, async (err, hashedPassword: string) => {
+        if (err) {
+          console.error('Error al hashear la contraseña:', err);
+          return
+        }
+        hashedOldPassword = hashedPassword
         validatePassword = bcrypt.compareSync(oldPassword, userDb.password );
       });
     });
 
+    console.log('es el mismo que la db?', validatePassword)
+    console.log('new_password enviado', password,  hashedNewPassword)
+    console.log('old_password enviado', oldPassword,  hashedOldPassword)
+    console.log('password db', userDb.password)
+
     if (validatePassword) {
       updateQuery = `
         UPDATE users
-        SET name = ${username}, email = ${email}, password = ${hashedPassword}
+        SET name = ${username}, email = ${email}, password = ${hashedNewPassword}
         WHERE id = ${id}
       `
     } else {
