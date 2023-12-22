@@ -2,11 +2,7 @@ import { sql } from '@vercel/postgres';
 import {
   CustomerField,
   CustomersTableType,
-  InvoiceForm,
-  InvoicesTable,
-  LatestInvoiceRaw,
-  User,
-  CustomerForm,
+  CustomerForm
 } from './definitions';
 import { formatCurrency } from './utils';
 import { unstable_noStore as noStore } from 'next/cache';
@@ -18,11 +14,11 @@ export async function fetchCustomersPages(query: string) {
   try {
     const count = await sql`SELECT COUNT(*)
     FROM customers
-		JOIN invoices ON customers.id = invoices.customer_id
     WHERE
       customers.name ILIKE ${`%${query}%`} OR
       customers.email ILIKE ${`%${query}%`} 
   `;
+  console.log(count)
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
@@ -30,7 +26,6 @@ export async function fetchCustomersPages(query: string) {
     throw new Error('Failed to fetch total number of customers.');
   }
 }
-
 export async function fetchCustomerById(id: string) {
   noStore();
   try {
