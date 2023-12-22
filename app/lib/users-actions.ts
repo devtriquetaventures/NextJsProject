@@ -139,25 +139,28 @@ export async function updateUser(
   if (password && oldPassword){
     const userDb = await fetchUserById(id)
     let validatePassword = false
-    let hashedPassword = ''
+    let hashedNewPassword = ''
 
-    bcrypt.genSalt(10, (err, salt) => {
-      bcrypt.hash(password, salt, async (err, hashedPassword: string) => {
-        if (err) {
-          console.error('Error al hashear la contraseña:', err);
-          return
-        }
-        hashedPassword = hashedPassword
+    hashedNewPassword = bcrypt.hashSync(password, 10);
+        console.log(hashedNewPassword)
+        console.log(userDb.password)
         validatePassword = bcrypt.compareSync(oldPassword, userDb.password );
-      });
-    });
+        console.log(validatePassword)
+
 
     if (validatePassword) {
-      updateQuery = `
-        UPDATE users
-        SET name = ${username}, email = ${email}, password = ${hashedPassword}
-        WHERE id = ${id}
-      `
+      try {
+        await sql`
+          UPDATE users
+          SET name = ${username}, email = ${email}, password = ${hashedNewPassword}
+          WHERE id = ${id}
+        `;
+      } catch (error) {
+        console.log('error', error);
+        return {
+          message: 'Database Error: Failed to Update User.'
+        };
+      }
     } else {
       return {
         errors: {
@@ -167,20 +170,18 @@ export async function updateUser(
     }
 
   } else {
-    updateQuery = `
-      UPDATE users
-      SET name = ${username}, email = ${email}
-      WHERE id = ${id}
-    `
-  }
-
-  try {
-     sql + updateQuery;
-  } catch (error) {
-    console.log('error', error)
-    return {
-      message: 'Database Error: Failed to Update User.',
-    };
+    try {
+      await sql`
+        UPDATE users
+        SET name = ${username}, email = ${email}
+        WHERE id = ${id}
+      `;
+    } catch (error) {
+      console.log('error', error);
+      return {
+        message: 'Database Error: Failed to Update User.'
+      };
+    }
   }
 
 
