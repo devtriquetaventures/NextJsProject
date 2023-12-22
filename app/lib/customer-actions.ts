@@ -43,8 +43,6 @@ export async function CreateCustomer(prevState: State, formData: FormData) {
     email: formData.get('email'),
     image_url: formData.get('image_url'),
   });
-
-  console.log(validatedFields)
   
   if (!validatedFields.success) {
     return {

@@ -111,6 +111,14 @@ export type UserField = {
   name: string;
 }
 
+export type UserEditField = {
+  id: string;
+  name: string;
+  email: string;
+  oldPassword: string;
+  password: string;
+}
+
 export type UserForm = {
   id: string;
   name: string;

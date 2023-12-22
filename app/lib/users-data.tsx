@@ -1,5 +1,5 @@
 import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
-import { UserField, UserForm, UsersTableType } from "./definitions";
+import { UserEditField, UserField, UserForm, UsersTableType } from "./definitions";
 import { sql } from "@vercel/postgres";
 import { formatCurrency } from './utils';
 import { z } from 'zod';
@@ -55,7 +55,7 @@ export type State = {
 export async function fetchUserById(id: string) {
   noStore();
   try {
-    const data = await sql<UserForm>`
+    const data = await sql<UserEditField>`
       SELECT
         users.id,
         users.name,
@@ -69,8 +69,7 @@ export async function fetchUserById(id: string) {
       ...user,
       // Convert amount from cents to dollars
     }));
-
-    console.log(user)
+  
     return user[0];
   } catch (error) {
     console.error('Database Error:', error);
@@ -81,7 +80,7 @@ export async function fetchUserById(id: string) {
 export async function fetchUsers() {
   noStore();
   try {
-    const data = await sql<UserField>`
+    const data = await sql<UserEditField>`
       SELECT
         id,
         name
