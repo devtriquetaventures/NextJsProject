@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Page() {
  
   return (
-    <main>
+    <main className='md:py-20'>
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Customers', href: '/dashboard/customer' },

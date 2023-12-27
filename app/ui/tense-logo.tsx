@@ -1,10 +1,9 @@
-import { lusitana } from '@/app/ui/fonts';
 import Image  from 'next/image'
 
 export default function TenseLogo() {
   return (
     <div
-      className={`flex flex-row items-center leading-none text-white`}
+      className={`flex flex-row items-center leading-none`}
     >
       <Image
         src="/tense.png"

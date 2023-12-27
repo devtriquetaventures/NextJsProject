@@ -20,11 +20,11 @@ export default async function Page({
   const totalPages = await fetchUsersPages(query);
 
   return (
-    <>
+    <main className='md:py-20'>
     <Table query={query} currentPage={currentPage}/>
     <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-    </>
+    </main>
    ) 
 }

@@ -11,7 +11,7 @@ export default async function Page() {
   const customers = await fetchCustomers();
  
   return (
-    <main>
+    <main className='md:py-20'>
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Invoices', href: '/dashboard/invoices' },

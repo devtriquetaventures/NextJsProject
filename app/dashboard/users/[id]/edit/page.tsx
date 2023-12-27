@@ -20,7 +20,7 @@ export default async function Page({ params } : { params: { id: string } }) {
   }
   
   return (
-    <main>
+    <main className='md:py-20'>
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Users', href: '/dashboard/users' },
