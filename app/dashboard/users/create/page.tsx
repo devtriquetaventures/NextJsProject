@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Page() {
  
   return (
-    <main className='md:py-20'>
+    <div>
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Usuarios', href: '/dashboard/users' },
@@ -21,6 +21,6 @@ export default async function Page() {
         ]}
       />
       <Form />
-    </main>
+    </div>
   );
 }

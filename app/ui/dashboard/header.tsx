@@ -13,7 +13,7 @@ export default function Header() {
         <div className='flex justify-start justify-items-center pt-5 pl-8'>
           <NavLinks />
         </div>
-        <div className="hidden grow rounded-md md:block"></div>
+        <div className="grow rounded-md md:block"></div>
           <div className='pr-10'>
           <UserIcon />
           </div>

@@ -7,7 +7,7 @@ export default function SettingsLink( {className, children}: {className?: string
   return(
     <Link
       href='/dashboard/settings'
-      className="flex flex-column items-center"
+      className="flex flex-column items-center w-full"
     >
       <Cog6ToothIcon className={className} />
       <span>{children}</span>

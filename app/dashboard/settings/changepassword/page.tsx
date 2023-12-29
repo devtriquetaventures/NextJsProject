@@ -14,10 +14,10 @@ export default async function Page() {
 
   
   return (
-    <main>
+    <div>
     {session?.user && session.user.name && session.user.email && (
       <ChangePasswordTable user={user} />
     )}
-  </main>
+  </div>
   );
 }

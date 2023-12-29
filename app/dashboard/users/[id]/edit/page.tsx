@@ -20,7 +20,7 @@ export default async function Page({ params } : { params: { id: string } }) {
   }
   
   return (
-    <main className='md:py-20'>
+    <div>
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Usuarios', href: '/dashboard/users' },
@@ -32,6 +32,6 @@ export default async function Page({ params } : { params: { id: string } }) {
         ]}
       />
       <Form user={users} />
-    </main>
+    </div>
   );
 }

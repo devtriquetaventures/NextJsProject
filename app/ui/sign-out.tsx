@@ -11,8 +11,8 @@ import { signOut } from '@/auth';
       await signOut();
     }}>
       <button className="flex flex-column items-center">
-        <span><PowerIcon className={className} /></span>     
-        <span>{children}</span>
+        {/* {/* <span><PowerIcon className={className} /></span>      */}
+        <span>{children}</span> 
       </button>     
   </form>
   )
