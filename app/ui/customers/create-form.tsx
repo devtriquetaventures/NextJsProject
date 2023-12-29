@@ -2,116 +2,75 @@
 
 import Link from 'next/link';
 import { useFormState } from 'react-dom'
-import { CameraIcon, CurrencyDollarIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { AtSymbolIcon, CameraIcon, UserIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { CreateCustomer } from '@/app/lib/customer-actions';  
+import InputTable from '../input-table';
+import Input from '../input';
+import { useToast } from '@/app/lib/custom-hooks';
 
 export default function Form() {
   const initialState = { message: null, errors: {} };
+  const [state, dispatch] = useFormState(
+    (prevState : any, formData : any) => CreateCustomer(prevState, formData),
+    initialState
+  );
 
-  const [state, dispatch] = useFormState(CreateCustomer, initialState);
+  useToast(state, state.succes, "¡Cliente creado correctamente!", "/dashboard/customers")
 
   return (
     <form action={dispatch}>
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
 
-        {/* Customer Full Name */}
-        <div className="mb-4">
-          <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            Full name of customer
-          </label>
-          <div className="relative">
-          <input
-                id="name"
-                name="name"
-                type="text"
-                step="0.01"
-                placeholder="Enter full name of customer"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="name-error"
-              />
-            <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-            <div id="name-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.name &&
-                state.errors.name.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-        </div>
+        {/* Username */}
+        <InputTable>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Introduce el nombre del cliente"
+            aria-describedby="name-error"
+            icon={<UserIcon />}
+            label="Nombre del cliente"         
+            state={state}     
+          />
+        </InputTable>
 
-        {/* Customer Email */}
-        <div className="mb-4">
-          <label htmlFor="email" className="mb-2 block text-sm font-medium">
-            Email of customer
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Enter the email of customer"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="email-error"
-              />
-              <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-            <div id="email-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.email &&
-                state.errors.email.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-        </div>
+        {/* User Email */}
+        <InputTable>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="Introduce el email del cliente"
+            aria-describedby="email-error"
+            icon={<AtSymbolIcon />}
+            state={state}   
+            label="Email del cliente"
+          />
+        </InputTable>
 
-        {/* Customer Image */}
-        <fieldset>
-          <legend className="mb-2 block text-sm font-medium">
-            Put a image url of the customer
-          </legend>
-          <div>
+        {/* User image_url */}
+        <InputTable>
+          <Input
+            id="image_url"
+            name="image_url"
+            type="image_url"
+            placeholder="Introduce una imagen URL"
+            aria-describedby="image_url-error"
+            icon={<CameraIcon />}
+            label="Foto del cliente"
+            state={state}   
+          />
+        </InputTable>
 
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="image_url"
-                name="image_url"
-                type="text"
-                placeholder="Enter a url image of the customer"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="image_url-error"
-              />
-              <CameraIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-
-            <div id="image_url-error" aria-live="polite" aria-atomic="true">
-              {state.errors?.image_url &&
-                state.errors.image_url.map((error: string) => (
-                  <p className="mt-2 text-sm text-red-500" key={error}>
-                    {error}
-                  </p>
-                ))}
-            </div>
-
-          </div>
-        </fieldset>
-
-      </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
           href="/dashboard/customers"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200 active:transform active:translate-y-1"
         >
           Cancel
         </Link>
-        <Button type="submit">Create Customer</Button>
+        <Button type="submit">Create User</Button>
       </div>
     </form>
   );

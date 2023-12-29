@@ -1,5 +1,5 @@
 import { unstable_noStore as noStore, revalidatePath } from 'next/cache';
-import { UserEditField, UserField, UserForm, UsersTableType } from "./definitions";
+import { UserEditField, UserEmailField, UserField, UserForm, UsersTableType } from "./definitions";
 import { sql } from "@vercel/postgres";
 import { formatCurrency } from './utils';
 import { z } from 'zod';
@@ -74,6 +74,29 @@ export async function fetchUserById(id: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch user.');
+  }
+}
+
+export async function fetchUserByEmail(email: string | null | undefined ) {
+  noStore();
+  try {
+    const data = await sql<UserEmailField>`
+      SELECT
+        users.email,
+        users.password
+      FROM users
+      WHERE users.email = ${email};
+    `;
+
+    const user = data.rows.map((user) => ({
+      ...user,
+      // Convert amount from cents to dollars
+    }));
+  
+    return user[0];
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch email user.');
   }
 }
 

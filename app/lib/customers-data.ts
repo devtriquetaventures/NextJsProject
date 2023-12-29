@@ -96,9 +96,7 @@ export async function fetchFilteredCustomers(query: string, currentPage: number)
 	  `;
 
     const customers = data.rows.map((customer) => ({
-      ...customer,
-      total_pending: formatCurrency(customer.total_pending),
-      total_paid: formatCurrency(customer.total_paid),
+      ...customer
     }));
 
     return customers;

@@ -5,7 +5,7 @@ import { sql } from '@vercel/postgres'
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt'; 
-import { fetchUserById } from '@/app/lib/users-data'
+import { fetchUserByEmail, fetchUserById } from '@/app/lib/users-data'
 
 const FormUserSchema = z.object({
   id: z.string(),
@@ -70,15 +70,16 @@ export async function CreateUser(prevState: State, formData: FormData) {
         
       });
     });
-
+    revalidatePath('/dashboard/users');
+    return {
+      succes: true
+    }
   } catch (error) {
     return {
       message: 'Database Error: Failed to Create User.',
     };
   }
  
-  revalidatePath('/dashboard/users');
-  redirect('/dashboard/users');
 }
 
 const FormUserEditSchema = z.object({
@@ -142,10 +143,7 @@ export async function updateUser(
     let hashedNewPassword = ''
 
     hashedNewPassword = bcrypt.hashSync(password, 10);
-        console.log(hashedNewPassword)
-        console.log(userDb.password)
         validatePassword = bcrypt.compareSync(oldPassword, userDb.password );
-        console.log(validatePassword)
 
 
     if (validatePassword) {
@@ -155,6 +153,10 @@ export async function updateUser(
           SET name = ${username}, email = ${email}, password = ${hashedNewPassword}
           WHERE id = ${id}
         `;
+        revalidatePath('/dashboard/users');
+        return {
+          succes: true
+        }
       } catch (error) {
         console.log('error', error);
         return {
@@ -184,17 +186,93 @@ export async function updateUser(
     }
   }
 
-
-  revalidatePath('/dashboard/users');
-  redirect('/dashboard/users');
 }
 
 export async function deleteUser(id: string) {
   try {
     await sql`DELETE FROM users WHERE id = ${id}`;
     revalidatePath('/dashboard/users');
-    return { message: 'Deleted User.' };
+    return { message: 'Deleted User.',
+              succes: true };
   } catch (error) {
     return { message: 'Database Error: Failed to Delete User.' };
   }
+}
+
+const FormUserByEmailSchema = z.object({
+  email: z.string(),
+    password: z.coerce.string({
+    }).min(6, {
+      message: "Please enter a password of 6 or more characteres"
+    }),
+    oldPassword: z.coerce.string().min(6, {
+      message: "Please enter a password of 6 or more characteres"
+    })
+})
+
+const UpdateUserByEmail = FormUserByEmailSchema.omit({ email: true });
+
+export async function updateUserByEmail(
+  email: string,
+  prevState: State,
+  formData: FormData,
+) {
+
+  const validatedFields = UpdateUserByEmail.safeParse({
+    password: formData.get('password'),
+    oldPassword: formData.get('oldPassword')
+  });
+
+
+  if (!validatedFields.success) {
+    console.log('zod validation error:', validatedFields.error.flatten().fieldErrors)
+
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update User.',
+    };
+  }
+
+  const { password, oldPassword } = validatedFields.data;
+
+  let updateQuery = ''
+
+  if (password && oldPassword){
+    const userDb = await fetchUserByEmail(email)
+    let validatePassword = false
+    let hashedNewPassword = ''
+
+    hashedNewPassword = bcrypt.hashSync(password, 10);
+        validatePassword = bcrypt.compareSync(oldPassword, userDb.password );
+
+
+    if (validatePassword) {
+      try {
+        await sql`
+          UPDATE users
+          SET password = ${hashedNewPassword}
+          WHERE email = ${email}
+        `;
+        revalidatePath('/dashboard/settings');
+        return {
+          message: 'Contraseña actualizada con exito',
+          succes: true
+        }
+      } catch (error) {
+        console.log('error', error);
+        return {
+          message: 'Database Error: Failed to Update User.'
+        };
+      }
+    } else {
+      return {
+        errors: {
+          oldPassword: ['La contraseña actual no coincide con la indicada.']
+        }
+      }
+    }
+
+  }
+
+
 }
