@@ -5,7 +5,7 @@ export default function SettingsButton( { href, icon, title, subtitle }: { href:
 
   return (
     <Link href={href}>
-      <div className="bg-white dark:bg-gray-700 border:gray-100 rounded-lg p-4 flex justify-between items-center mx-2 shadow">
+      <div className="bg-white dark:bg-gray-700 border:gray-100 rounded-lg p-4 flex justify-between items-center mx-2 shadow h-[6.5rem]">
         <div className="flex items-center space-x-4">
           <div className="border dark:border-gray-600 rounded-xl p-[5px]">
             <div className="bg-gray-100 dark:bg-gray-500 rounded-lg p-[4px]">
