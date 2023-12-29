@@ -6,7 +6,7 @@ export default function ProfileLink( {className, children}: {className?: string,
   return(
     <Link
       href='/dashboard/profile'
-      className="flex flex-column items-center"
+      className="flex flex-column items-center w-full"
     >
       <User className={className} />
       <span>{children}</span>
