@@ -25,7 +25,7 @@ export default async function Page({
   const totalPages = await fetchCustomersPages(query);
 
   return (
-    <>
+    <section>
       <div>
         <h1 className="text-xl font-bold">Clientes</h1>
       </div>
@@ -39,6 +39,6 @@ export default async function Page({
       <div className="mt-5 flex w-full justify-center">
         <Pagination totalPages={totalPages} />
       </div>
-    </>
+    </section>
   );
 }

@@ -17,7 +17,7 @@ import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 
 export default function UserIcon() {
   return (
-    <div className="mr-4 mt-4 hidden h-12 w-12 justify-start justify-items-center md:flex ">
+    <div className="mr-4 mt-4 h-12 w-12 justify-start justify-items-center md:flex ">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Image

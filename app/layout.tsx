@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${inter.className} antialiased`}>
-        <main>{children}</main>
+        {children}
         <Toaster />
         </body>
     </html>

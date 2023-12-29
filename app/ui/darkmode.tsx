@@ -1,7 +1,6 @@
 'use client';
 
-import { MoonIcon, SunIcon } from '@heroicons/react/24/outline';
-
+import { MoonIcon, SunIcon } from '@heroicons/react/24/outline'
 import { useEffect, useState } from 'react';
 
 
@@ -9,6 +8,9 @@ export default function DarkMode({ className, children }: { className?: string, 
   const [selectedTheme, setSelectedTheme] = useState('');
 
   useEffect(function () {
+    if (localStorage.getItem('theme') === null) {
+      localStorage.setItem('theme', 'light');
+    }
     const appTheme = localStorage.getItem('theme')
     appTheme && setSelectedTheme(appTheme)
   }, []);

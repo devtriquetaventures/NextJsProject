@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Page() {
  
   return (
-    <main>
+    <div>
       <Breadcrumbs
         breadcrumbs={[
           { label: 'Clientes', href: '/dashboard/customer' },
@@ -21,6 +21,6 @@ export default async function Page() {
         ]}
       />
       <Form />
-    </main>
+    </div>
   );
 }

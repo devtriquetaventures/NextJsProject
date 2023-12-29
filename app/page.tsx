@@ -7,7 +7,7 @@ import DarkMode from './ui/darkmode';
 
 export default function Page() {
   return (
-    <main className="flex min-h-screen flex-col p-6 dark:bg-gray-800">
+    <div className="flex min-h-screen flex-col p-6 dark:bg-gray-800">
       <div className="flex h-20 shrink-0 items-center justify-between rounded-lg bg-black dark:bg-gray-900 p-4 md:h-52">
         <Image
           src="/tense.png"
@@ -35,6 +35,6 @@ export default function Page() {
           </Link>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
