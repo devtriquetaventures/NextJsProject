@@ -1,32 +1,26 @@
-import Image from 'next/image';
 import NavLinks from '@/app/ui/dashboard/nav-links';
 import TenseLogo from '@/app/ui/tense-logo';
 import DarkMode from '../darkmode';
+import UserIcon from '../user-icon';
 
 export default function Header() {
   return (
-    <div className="flex justify-items-center flex-row md:pl-6 md:px-2 bg-gradient-to-tr from-sky-900 via-black to-purple-900">
+    <header className="flex flex-row md:pl-6 md:px-2 bg-gradient-to-tr from-sky-900 via-black to-purple-900">
         <div className="w-26 md:w-24 flex justify-center justify-items-center ml-2">
           <TenseLogo />
         </div>
       <div className="flex h-20 grow flex-row justify-start justify-items-center">
-        <div className='flex justify-start justify-items-center pt-5 pl-4'>
+        <div className='flex justify-start justify-items-center pt-5 pl-8'>
           <NavLinks />
         </div>
         <div className="hidden grow rounded-md md:block"></div>
-          <div className='flex justify-center justify-items-center mr-5'>
-            <DarkMode />
+          <div className='pr-10'>
+          <UserIcon />
           </div>
-        <div className='flex justify-start justify-items-center h-12 w-12 mt-4 mr-4'>
-          <Image
-               src={'/customers/emil-kowalski.png'}
-               className="rounded-full"
-               alt={`evil rabbits profile picture`}
-               width={64}
-               height={64}
-          />             
-        </div>
+          <div className='hidden'>
+          <DarkMode />
+          </div>
       </div>
-    </div>
+    </header>
   );
 }

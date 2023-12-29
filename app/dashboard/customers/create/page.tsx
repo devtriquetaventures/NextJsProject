@@ -3,7 +3,7 @@ import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { Metadata } from 'next';
  
 export const metadata: Metadata = {
-  title: 'Create Customer'
+  title: 'Crear Cliente'
 };
  
 export default async function Page() {
@@ -12,9 +12,9 @@ export default async function Page() {
     <main className='md:py-20'>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Customers', href: '/dashboard/customer' },
+          { label: 'Clientes', href: '/dashboard/customer' },
           {
-            label: 'Create Customer',
+            label: 'Crear Cliente',
             href: '/dashboard/customers/create',
             active: true,
           },

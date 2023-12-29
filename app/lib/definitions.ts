@@ -119,6 +119,11 @@ export type UserEditField = {
   password: string;
 }
 
+export type UserEmailField = {
+  email: string;
+  password: string;
+}
+
 export type UserForm = {
   id: string;
   name: string;

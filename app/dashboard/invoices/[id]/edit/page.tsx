@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
  
 export const metadata: Metadata = {
-  title: 'Edit Invoice'
+  title: 'Edita Factura'
 };
   
 export default async function Page({ params } : { params: { id: string } }) {
@@ -24,9 +24,9 @@ export default async function Page({ params } : { params: { id: string } }) {
     <main className='md:py-20'>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Invoices', href: '/dashboard/invoices' },
+          { label: 'Facturas', href: '/dashboard/invoices' },
           {
-            label: 'Edit Invoice',
+            label: 'Editar Factura',
             href: `/dashboard/invoices/${id}/edit`,
             active: true,
           },

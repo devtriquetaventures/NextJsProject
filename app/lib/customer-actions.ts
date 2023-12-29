@@ -58,14 +58,17 @@ export async function CreateCustomer(prevState: State, formData: FormData) {
       INSERT INTO customers (name, email, image_url)
       VALUES (${name}, ${email}, ${image_url})
     `;
+    revalidatePath('/dashboard/customers');
+    return {
+      succes: true
+    }
   } catch (error) {
     return {
       message: 'Database Error: Failed to Create Customer.',
     };
   }
  
-  revalidatePath('/dashboard/customers');
-  redirect('/dashboard/customers');
+
 }
 
 const UpdateCustomer = FormCustomerSchema.omit({ id: true, date: true  });
@@ -96,12 +99,14 @@ export async function updateCustomer(
       SET name = ${name}, email = ${email}, image_url = ${image_url}
       WHERE id = ${id}
     `;
+    revalidatePath('/dashboard/customers');
+    return {
+      succes: true
+    }
   } catch (error) {
     return { message: 'Database Error: Failed to Update Customer.' };
   }
  
-  revalidatePath('/dashboard/customers');
-  redirect('/dashboard/customers');
 }
 
 export async function deleteCustomer(id: string) {

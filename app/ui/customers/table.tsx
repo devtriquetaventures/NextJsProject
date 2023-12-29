@@ -1,8 +1,5 @@
-import Image from 'next/image';
-import { lusitana } from '@/app/ui/fonts';
-import Search from '@/app/ui/search';
-import { CreateCustomers, DeleteCustomer, UpdateCustomer } from '../invoices/buttons';
 import { fetchFilteredCustomers } from '@/app/lib/customers-data';
+import CustomersListTable from './customers-table';
 
 export default async function CustomersTable({
   // customers,
@@ -15,122 +12,13 @@ export default async function CustomersTable({
 }) {
   const customers = await fetchFilteredCustomers(query, currentPage)
   return (
-    <div className="w-full">
-      <div className='flex grow justify-between'>
-          <h1 className={`mb-8 text-xl md:text-2xl`}>
-            Clientes
-          </h1>
-          <CreateCustomers />
-      </div>
-      <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Buscar por nombre y apellido..." />
-      </div>
+    <div>
       <div className="mt-6 flow-root">
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden rounded-md bg-gray-50 dark:bg-gray-700 dark:text-white p-2 md:pt-0">
-              <div className="md:hidden">
-                {customers?.map((customer) => (
-                  <div
-                    key={customer.id}
-                    className="mb-2 w-full rounded-md bg-white dark:bg-gray-800 dark:text-white p-4"
-                  >
-                    <div className="flex items-center justify-between border-b pb-4">
-                      <div>
-                        <div className="mb-2 flex items-center">
-                          <div className="flex items-center gap-3">
-                            <Image
-                              src={customer.image_url}
-                              className="rounded-full"
-                              alt={`${customer.name}'s profile picture`}
-                              width={28}
-                              height={28}
-                            />
-                            <p>{customer.name}</p>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-500">
-                          {customer.email}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex w-full items-center justify-between border-b py-3">
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Pending</p>
-                        <p className="font-medium">{customer.total_pending}</p>
-                      </div>
-                      <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Paid</p>
-                        <p className="font-medium">{customer.total_paid}</p>
-                      </div>
-                    </div>
-                    <div className="pt-4 text-sm">
-                      <p>{customer.total_invoices} invoices</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
 
-
-              <table className="hidden min-w-full rounded-md text-gray-900 md:table">
-                <thead className="rounded-md bg-gray-50 dark:bg-gray-700 dark:text-white text-left text-sm font-normal">
-                  <tr>
-                    <th scope="col" className="px-4 py-3 font-medium sm:pl-6">
-                      Nombre Completo
-                    </th>
-                    <th scope="col" className="px-3 py-3 font-medium">
-                      Documento
-                    </th>
-                    <th scope="col" className="px-3 py-3 font-medium">
-                      Email
-                    </th>
-                    <th scope="col" className="px-3 py-3 font-medium">
-                      Teléfono
-                    </th>
-                    <th scope="col" className="px-4 py-3 font-medium">
-                      
-                    </th>
-                    <th scope="col" className="px-4 py-3 font-medium flex justify-end">
-                      Acciones
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody className="divide-y divide-gray-200 text-gray-900">
-                  {customers.map((customer) => (
-                    <tr key={customer.id} className="group">
-                      <td className="whitespace-nowrap bg-white dark:bg-gray-800 dark:text-white py-3 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-tl-md group-last-of-type:rounded-bl-md sm:pl-6">
-                        <div className="flex items-center gap-3">
-                          <Image
-                            src={customer.image_url}
-                            className="rounded-full"
-                            alt={`${customer.name}'s profile picture`}
-                            width={28}
-                            height={28}
-                          />
-                          <p>{customer.name}</p>
-                        </div>
-                      </td>
-                      <td className="whitespace-nowrap bg-white dark:bg-gray-800 dark:text-white px-4 py-3 text-sm">
-                        46.363.257
-                      </td>
-                      <td className="whitespace-nowrap bg-white dark:bg-gray-800 dark:text-white px-4 py-3 text-sm">
-                        {customer.email}
-                      </td>
-                      <td className="whitespace-nowrap bg-white dark:bg-gray-800 dark:text-white px-4 py-3 text-sm">
-                        11 3245 3817
-                      </td>
-                      <td className="whitespace-nowrap bg-white dark:bg-gray-800 dark:text-white px-4 py-3 text-sm">
-                        
-                      </td>
-                      <td className="flex justify-end gap-2 whitespace-nowrap bg-white dark:bg-gray-800 dark:text-white px-4 py-3 text-sm group-first-of-type:rounded-tr-md group-last-of-type:rounded-br-md">
-                        <UpdateCustomer id={customer.id} />
-                        <DeleteCustomer id={customer.id} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <CustomersListTable data={customers} />
 
             </div>
           </div>

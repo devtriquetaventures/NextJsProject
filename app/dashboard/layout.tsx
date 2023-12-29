@@ -1,17 +1,18 @@
 import Header from '@/app/ui/dashboard/header';
-import { Button } from '../ui/button';
-import { SunIcon } from '@heroicons/react/24/outline';
-import DarkMode from '../ui/darkmode';
 import Footer from '../ui/dashboard/footer';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen flex-col justify-between md:flex-col md:overflow-hidden bg-white dark:bg-gray-900 transition-all dark:text-white">
-      <Header />
-      <div className="">
+    <div className="flex justify-between h-screen flex-col md:overflow-hidden bg-slate-100 dark:bg-gradient-to-t dark:from-gray-900 dark:to-gray-800 transition-all dark:text-white">
+
+     <Header />
+
+      <main className='h-full w-full p-2 md:p-6'>
         {children}
-      </div>
+      </main>
+      <footer>
         <Footer />
+      </footer>
     </div>
   );
 }
