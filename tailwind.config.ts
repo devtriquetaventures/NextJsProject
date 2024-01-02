@@ -21,6 +21,9 @@ const config: Config = {
       gridTemplateColumns: {
         '13': 'repeat(13, minmax(0, 1fr))',
       },
+      backgroundImage: {
+        'hexa-pattern': "url('/pattern.svg')", 
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
