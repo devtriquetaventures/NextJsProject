@@ -63,8 +63,8 @@ export default function LoginForm() {
           </div>
         </div>
         <div className='flex justify-between gap-1'>
-        <Cancel />
         <LoginButton />
+        <Cancel />
         </div>
         <div
           className="flex h-8 items-end space-x-1"
