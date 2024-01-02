@@ -19,6 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
+      <head>
+        <link rel="icon" href="/tense-logo.png" sizes="32x32" />
+      </head>
       <body className={`${inter.className} antialiased`}>
         {children}
         <Toaster />
