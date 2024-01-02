@@ -21,7 +21,7 @@ export default function LoginPage() {
         <LoginForm />
       </div>
       <div className='flex justify-end md:justify-start dark:text-white items-center transition-all absolute right-3 bottom-3 md:left-3'>
-          <DarkMode className="h-12 p-1 w-auto font-bold"><span className='font-bold ml-1 hidden md:block'>Cambiar de modo</span></DarkMode>
+          <div className='md:bg-black md:dark:bg-white md:text-white md:dark:text-black md:px-3 md:py-1 md:rounded-lg md:hover:bg-slate-600 md:dark:hover:bg-gray-200 transition-all'><DarkMode className="h-10 p-1 w-auto font-bold"><span className='font-bold ml-1 hidden md:block'>Cambiar de modo</span></DarkMode></div>
       </div>
     </div>
   );
