@@ -2,6 +2,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { fetchLatestInvoices } from '@/app/lib/invoices-data';
+import InvoiceStatus from '../invoices/status';
 
 
 export default async function LatestInvoices() {
@@ -38,11 +39,14 @@ export default async function LatestInvoices() {
                     </p>
                   </div>
                 </div>
+                <div className='flex flex-row gap-6'>
+                <InvoiceStatus status={invoice.status} />
                 <p
                   className='truncate text-sm font-medium md:text-base'
                 >
                   {invoice.amount}
                 </p>
+                </div>
               </div>
             );
           })}
