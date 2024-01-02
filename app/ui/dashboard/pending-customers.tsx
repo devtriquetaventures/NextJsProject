@@ -65,10 +65,6 @@ export default async function PendingCustomers({
         <div className="mt-5 flex w-full justify-center">
           <Pagination totalPages={2} />
         </div>
-        <div className="flex items-center pb-2 pt-6">
-          <ArrowPathIcon className="h-5 w-5 text-gray-500" />
-          <h3 className="ml-2 text-sm text-gray-500 ">Actualizado ahora mismo</h3>
-        </div>
       </div>
     </div>
   );
