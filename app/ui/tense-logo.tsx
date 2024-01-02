@@ -3,7 +3,7 @@ import Image  from 'next/image'
 export default function TenseLogo() {
   return (
     <div
-      className={`flex flex-row items-center leading-none `}
+      className={`flex flex-row items-center leading-none`}
     >
       <Image
         src="/tense.png"
@@ -16,7 +16,7 @@ export default function TenseLogo() {
       <Image
         src="/tense-logo.png"
         width={50}
-        height={200}
+        height={56}
         className="block md:hidden"
         alt="Screenshots of the dashboard project showing desktop version"
       />

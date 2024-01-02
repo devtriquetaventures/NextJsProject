@@ -18,7 +18,6 @@ export async function fetchCustomersPages(query: string) {
       customers.name ILIKE ${`%${query}%`} OR
       customers.email ILIKE ${`%${query}%`} 
   `;
-  console.log(count)
     const totalPages = Math.ceil(Number(count.rows[0].count) / ITEMS_PER_PAGE);
     return totalPages;
   } catch (error) {
@@ -26,6 +25,7 @@ export async function fetchCustomersPages(query: string) {
     throw new Error('Failed to fetch total number of customers.');
   }
 }
+
 export async function fetchCustomerById(id: string) {
   noStore();
   try {
@@ -106,4 +106,34 @@ export async function fetchFilteredCustomers(query: string, currentPage: number)
   }
 }
 
+const ITEMS_PER_PAGE_2 = 5; 
 
+export async function fetchPendingCustomers(currentPage: number) {
+  const offset = (currentPage -1) * ITEMS_PER_PAGE_2
+  try {
+    const data = await sql<CustomersTableType>`
+      SELECT
+        customers.id,
+        customers.name,
+        customers.email,
+        customers.image_url,
+        (SELECT SUM(invoices.amount) FROM invoices WHERE invoices.customer_id = customers.id AND invoices.status = 'pending') AS total_pending
+      FROM customers
+      WHERE customers.id IN (
+        SELECT DISTINCT customer_id
+        FROM invoices
+        WHERE status = 'pending'
+      )
+      LIMIT ${ITEMS_PER_PAGE_2} OFFSET ${offset}
+    `;
+
+    const pendingCustomers = data.rows.map((customer) => ({
+      ...customer,
+      total_pending: customer.total_pending || 0, // Manejar casos donde total_pending sea null
+    }));
+    return pendingCustomers;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch the pending customers:');
+  }
+}
