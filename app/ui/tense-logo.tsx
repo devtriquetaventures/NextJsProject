@@ -9,7 +9,7 @@ export default function TenseLogo() {
         src="/tense.png"
         width={1000}
         height={760}
-        className="hidden md:block"
+        className="md:block"
         alt="Screenshots of the dashboard project showing desktop version"
       />
     </div>

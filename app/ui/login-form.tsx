@@ -10,6 +10,7 @@ import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
 import { useFormState, useFormStatus } from 'react-dom';
 import { authenticate } from '@/app/lib/invoices-actions';
+import Link from 'next/link';
 
 export default function LoginForm() {
   const [errorMessage, dispatch] = useFormState(authenticate, undefined);
@@ -61,7 +62,10 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
+        <div className='flex justify-between gap-1'>
+        <Cancel />
         <LoginButton />
+        </div>
         <div
           className="flex h-8 items-end space-x-1"
           aria-live="polite"
@@ -87,3 +91,13 @@ function LoginButton() {
       Iniciar sesion <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
     </Button>
   )}
+
+  function Cancel() {
+
+    return (
+      <Link href={'/'}>
+        <Button className="mt-4 w-full bg-gray-500 hover:bg-gray-400" >Cancelar</Button>
+      </Link>
+    )
+  }
+
