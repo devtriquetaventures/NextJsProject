@@ -24,13 +24,6 @@ export default function CustomersListTable ({
                       <div>
                         <div className="mb-2 flex items-center">
                           <div className="flex items-center gap-3">
-                            <Image
-                              src={item.image_url}
-                              className="rounded-full"
-                              alt={`${item.name}'s profile picture`}
-                              width={28}
-                              height={28}
-                            />
                             <p>{item.name}</p>
                           </div>
                         </div>
@@ -41,11 +34,11 @@ export default function CustomersListTable ({
                     </div>
                     <div className="flex w-full items-center justify-between border-b py-3">
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Pending</p>
+                        <p className="text-xs">Pendiente</p>
                         <p className="font-medium">{item.total_pending}</p>
                       </div>
                       <div className="flex w-1/2 flex-col">
-                        <p className="text-xs">Paid</p>
+                        <p className="text-xs">Pagado</p>
                         <p className="font-medium">{item.total_paid}</p>
                       </div>
                     </div>

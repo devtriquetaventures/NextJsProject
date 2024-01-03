@@ -73,7 +73,7 @@ export async function fetchCustomers() {
 
 export async function fetchFilteredCustomers(query: string, currentPage: number) {
   noStore();
-  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
+  const offset = (currentPage - 1 ) * ITEMS_PER_PAGE;
 
   try {
     const data = await sql<CustomersTableType>`

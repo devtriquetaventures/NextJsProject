@@ -37,7 +37,7 @@ export default async function Page({
       </div>
       <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
         <Suspense fallback={<LatestInvoicesSkeleton />}>
-          <PendingCustomers query={query} currentPage={currentPage} />
+          <PendingCustomers query={query} currentPage={currentPage} totalPages={totalPages} />
         </Suspense>
         <Suspense fallback={<LatestInvoicesSkeleton/>}>
           <LatestInvoices />

@@ -6,16 +6,19 @@ import { fetchPendingCustomers } from '@/app/lib/customers-data';
 import { formatCurrency } from '@/app/lib/utils';
 import InvoiceStatus from '../invoices/status';
 import Pagination from '../invoices/pagination';
+import { useEffect } from 'react';
 
 
 export default async function PendingCustomers({
   // customers,
   currentPage,
-  query
+  query,
+  totalPages
 }: {
   // customers: FormattedCustomersTable[];
   currentPage: number;
   query: string;
+  totalPages: number;
 }) {
 
   const pendingCustomers = await fetchPendingCustomers(currentPage)
@@ -62,8 +65,8 @@ export default async function PendingCustomers({
             );
           })}
         </div>
-        <div className="mt-5 flex w-full justify-center">
-          <Pagination totalPages={2} />
+        <div id='pagination' className="mt-5 flex w-full justify-center">
+              <Pagination totalPages={totalPages} anchor='#pagination'/>
         </div>
       </div>
     </div>

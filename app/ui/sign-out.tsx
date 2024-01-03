@@ -1,4 +1,3 @@
-import { PowerIcon } from "@heroicons/react/24/outline";
 import { signOut } from '@/auth';
 
 
@@ -10,8 +9,7 @@ import { signOut } from '@/auth';
       'use server';
       await signOut();
     }}>
-      <button className="flex flex-column items-center">
-        {/* {/* <span><PowerIcon className={className} /></span>      */}
+      <button className={`flex flex-column items-center ${className}`}>
         <span>{children}</span> 
       </button>     
   </form>
