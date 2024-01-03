@@ -1,6 +1,6 @@
 import {  UsersTableType } from "@/app/lib/definitions";
-import { LastTableHeaderCell, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text, LastTableCell } from "../tablefunctions";
-import { DeleteCustomer, DeleteUser, UpdateCustomer, UpdateUser } from "../buttons";
+import { LastTableHeaderCell, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, LastTableCell } from "../tablefunctions";
+import { DeleteUser, UpdateUser } from "../buttons";
 
 
 

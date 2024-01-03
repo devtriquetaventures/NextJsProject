@@ -178,6 +178,10 @@ export async function updateUser(
         SET name = ${username}, email = ${email}
         WHERE id = ${id}
       `;
+        revalidatePath('/dashboard/users');
+        return {
+          succes: true
+        }
     } catch (error) {
       console.log('error', error);
       return {

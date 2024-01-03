@@ -1,7 +1,6 @@
 import { CustomersTableType } from "@/app/lib/definitions";
 import { LastTableHeaderCell, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text, LastTableCell } from "../tablefunctions";
 import { DeleteCustomer, UpdateCustomer } from "../buttons";
-import Image from "next/image";
 import { formatCurrency } from "@/app/lib/utils";
 
 
