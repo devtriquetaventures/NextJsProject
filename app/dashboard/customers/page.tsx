@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import Table from '@/app/ui/customers/table'
 import { CreateCustomers } from '@/app/ui/buttons';
+import { UserGroupIcon } from '@heroicons/react/24/outline';
  
 export const metadata: Metadata = {
   title: 'Clientes'
@@ -27,7 +28,7 @@ export default async function Page({
   return (
     <section>
       <div>
-        <h1 className="text-xl font-bold">Clientes</h1>
+        <h1 className="text-xl font-bold flex items-center gap-3"><UserGroupIcon className='h-5 w-5 text-violet-300' /> Clientes</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Buscar por nombre y apellido..." />

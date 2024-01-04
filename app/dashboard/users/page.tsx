@@ -6,6 +6,7 @@ import { CreateUsers } from '@/app/ui/buttons';
 import Search from '@/app/ui/search';
 import { Suspense } from 'react';
 import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+import { User } from 'lucide-react';
  
 export const metadata: Metadata = {
   title: 'Usuarios'
@@ -26,7 +27,7 @@ export default async function Page({
   return (
     <div className="w-full">
       <div>
-        <h1 className="text-xl font-bold">Usuarios</h1>
+        <h1 className="text-xl font-bold flex items-center gap-3"><User className='w-5 h-5 text-gray-300' /> Usuarios</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Buscar por nombre y apellido..." />

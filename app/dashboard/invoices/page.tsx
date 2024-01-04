@@ -7,6 +7,7 @@ import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { Suspense } from 'react';
 import { fetchInvoicesPages } from '@/app/lib/invoices-data';
 import { Metadata } from 'next';
+import { InboxIcon } from '@heroicons/react/24/outline';
  
 export const metadata: Metadata = {
   title: 'Facturas'
@@ -28,7 +29,7 @@ export default async function Page({
   return (
     <>
       <div>
-        <h1 className="text-xl font-bold">Facturas</h1>
+        <h1 className="text-xl font-bold flex items-center gap-3"><InboxIcon className='h-5 w-5 text-blue-300' /> Facturas</h1>
       </div>
       <div className="mt-4 flex gap-2 md:mt-8">
         <Search placeholder="Buscar por nombre y apellido..." />
