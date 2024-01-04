@@ -21,9 +21,9 @@ export default function UserIcon() {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Image
-            src={'/customers/evil-rabbit.png'}
-            className="rounded-full"
-            alt={`evil rabbits profile picture`}
+            src={'/customers/triqueta.png'}
+            className="rounded-xl"
+            alt={`triqueta profile picture`}
             width={64}
             height={64}
           />

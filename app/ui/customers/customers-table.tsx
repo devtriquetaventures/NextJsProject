@@ -34,11 +34,11 @@ export default function CustomersListTable ({
                     <div className="flex w-full items-center justify-between border-b py-3">
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pendiente</p>
-                        <p className="font-medium">{item.total_pending}</p>
+                        <p className="font-medium">{formatCurrency(item.total_pending)}</p>
                       </div>
                       <div className="flex w-1/2 flex-col">
                         <p className="text-xs">Pagado</p>
-                        <p className="font-medium">{item.total_paid}</p>
+                        <p className="font-medium">{formatCurrency(item.total_paid)}</p>
                       </div>
                     </div>
                     <div className="pt-4 text-sm">
